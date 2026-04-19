@@ -133,6 +133,7 @@ app.innerHTML = `
 
         <div class="camera-frame">
           <video id="camera-video" autoplay muted playsinline></video>
+          <div id="countdown-overlay" class="countdown-overlay" aria-live="polite"></div>
           <div id="camera-overlay" class="camera-overlay"></div>
         </div>
 
@@ -173,6 +174,7 @@ const statusPill = document.querySelector('#status-pill');
 const countdownPill = document.querySelector('#countdown-pill');
 const captureStrip = document.querySelector('#capture-strip');
 const video = document.querySelector('#camera-video');
+const countdownOverlay = document.querySelector('#countdown-overlay');
 const cameraButton = document.querySelector('#camera-button');
 const sessionButton = document.querySelector('#session-button');
 const resetButton = document.querySelector('#reset-button');
@@ -376,6 +378,14 @@ function setStatus(text, tone = 'neutral') {
 function setCountdown(text) {
   countdownPill.textContent = text;
   countdownPill.dataset.tone = text === 'Siap' ? 'neutral' : 'live';
+
+  if (!countdownOverlay) {
+    return;
+  }
+
+  const isNumber = /^\d$/.test(text);
+  countdownOverlay.textContent = isNumber ? text : '';
+  countdownOverlay.classList.toggle('show', isNumber);
 }
 
 function roundedRectPath(ctx, x, y, w, h, r) {
@@ -430,8 +440,9 @@ async function ensureCamera() {
   const stream = await navigator.mediaDevices.getUserMedia({
     video: {
       facingMode: 'user',
-      width: { ideal: 1280 },
-      height: { ideal: 1920 },
+      aspectRatio: { ideal: 0.75 },
+      width: { ideal: 1080 },
+      height: { ideal: 1440 },
     },
     audio: false,
   });
