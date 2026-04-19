@@ -439,27 +439,151 @@ h1 {
 
 @media (max-width: 760px) {
   .shell {
-    width: min(100% - 20px, 100%);
-    padding-top: 18px;
+    width: min(100% - 14px, 100%);
+    padding-top: 12px;
+    padding-bottom: calc(26px + env(safe-area-inset-bottom));
   }
 
   .hero {
     flex-direction: column;
     align-items: start;
+    gap: 12px;
+    margin-bottom: 14px;
   }
 
-  .theme-grid,
-  .capture-strip,
-  .controls {
-    grid-template-columns: 1fr;
+  h1 {
+    font-size: clamp(1.45rem, 7vw, 2.05rem);
+    max-width: 100%;
+  }
+
+  .lead {
+    margin-top: 10px;
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  .hero-badge {
+    width: 100%;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    padding: 12px 14px;
+    border-radius: 16px;
+  }
+
+  .hero-badge span {
+    font-size: 0.78rem;
+  }
+
+  .hero-badge strong {
+    font-size: 1.05rem;
+  }
+
+  .workspace {
+    gap: 12px;
+  }
+
+  .theme-panel {
+    order: 1;
+  }
+
+  .camera-panel {
+    order: 2;
+  }
+
+  .preview-panel {
+    order: 3;
+  }
+
+  .strip-panel {
+    order: 4;
+    margin-top: 12px;
+  }
+
+  .theme-grid {
+    display: flex;
+    overflow-x: auto;
+    gap: 10px;
+    padding-bottom: 4px;
+    scrollbar-width: thin;
+    scroll-snap-type: x mandatory;
+  }
+
+  .theme-card {
+    min-width: 46vw;
+    max-width: 210px;
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+    border-radius: 16px;
+    padding: 10px;
+  }
+
+  .theme-card img {
+    border-radius: 12px;
   }
 
   .panel {
-    padding: 14px;
-    border-radius: 22px;
+    padding: 12px;
+    border-radius: 18px;
   }
 
   .camera-frame {
-    aspect-ratio: 4 / 5;
+    aspect-ratio: 3 / 4;
+    border-radius: 18px;
+  }
+
+  .panel-head {
+    margin-bottom: 10px;
+  }
+
+  .panel-head h2 {
+    font-size: 1.06rem;
+  }
+
+  .template-stage {
+    width: min(100%, 86vw);
+    border-radius: 18px;
+  }
+
+  .controls {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .controls button,
+  .download {
+    min-height: 44px;
+    border-radius: 12px;
+    font-size: 0.92rem;
+  }
+
+  .controls .ghost {
+    grid-column: 1 / -1;
+  }
+
+  .export-row {
+    width: 100%;
+  }
+
+  .download {
+    width: 100%;
+  }
+
+  .capture-strip {
+    display: flex;
+    overflow-x: auto;
+    gap: 10px;
+    padding-bottom: 6px;
+    scrollbar-width: thin;
+  }
+
+  .strip-item {
+    min-width: 42vw;
+    min-height: 160px;
+    border-radius: 14px;
+    flex: 0 0 auto;
+  }
+
+  .helper-text {
+    font-size: 0.9rem;
   }
 }
