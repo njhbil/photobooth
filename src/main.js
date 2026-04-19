@@ -8,7 +8,7 @@ const templates = [
   {
     id: 'nais',
     name: 'Nais',
-    subtitle: 'Mendeteksi slot...',
+    subtitle: 'Menyesuaikan slot...',
     shots: 0,
     accent: '#f97316',
     image: theme1Url,
@@ -28,7 +28,7 @@ const templates = [
   {
     id: 'boom',
     name: 'Boom',
-    subtitle: 'Mendeteksi slot...',
+    subtitle: 'Menyesuaikan slot...',
     shots: 0,
     accent: '#facc15',
     image: theme2Url,
@@ -46,7 +46,7 @@ const templates = [
   {
     id: 'love',
     name: 'Mahal Kita',
-    subtitle: 'Mendeteksi slot...',
+    subtitle: 'Menyesuaikan slot...',
     shots: 0,
     accent: '#ec4899',
     image: theme3Url,
@@ -64,7 +64,7 @@ const templates = [
   {
     id: 'zebra',
     name: 'Nais Retro',
-    subtitle: 'Mendeteksi slot...',
+    subtitle: 'Menyesuaikan slot...',
     shots: 0,
     accent: '#a855f7',
     image: theme4Url,
@@ -87,16 +87,15 @@ app.innerHTML = `
   <main class="shell">
     <section class="hero">
       <div>
-        <p class="eyebrow">Photo Booth Ready</p>
-        <h1>Buat sesi foto sesuai template, otomatis jumlah jepretannya ikut slot tema.</h1>
+        <p class="eyebrow">Photo Booth</p>
+        <h1>Pilih template, lalu ambil foto otomatis.</h1>
         <p class="lead">
-          Pilih tema, nyalakan kamera, lalu aplikasi akan ambil foto satu per satu sampai jumlah
-          fotonya pas. Hasil akhir bisa langsung diunduh PNG.
+          Jumlah foto mengikuti slot template, lalu hasil akhir siap diunduh PNG.
         </p>
       </div>
       <div class="hero-badge">
-        <span>Auto match</span>
-        <strong>3 / 4 foto</strong>
+        <span>Mode otomatis</span>
+        <strong>3 - 4 foto</strong>
       </div>
     </section>
 
@@ -105,7 +104,7 @@ app.innerHTML = `
         <div class="panel-head">
           <div>
             <p class="panel-kicker">Tema</p>
-            <h2>Pilih frame</h2>
+            <h2>Pilih template</h2>
           </div>
           <span id="shot-label" class="shot-pill"></span>
         </div>
@@ -115,7 +114,7 @@ app.innerHTML = `
       <div class="panel preview-panel">
         <div class="panel-head">
           <div>
-            <p class="panel-kicker">Preview hasil</p>
+            <p class="panel-kicker">Pratinjau</p>
             <h2 id="template-name"></h2>
           </div>
           <span id="template-count" class="count-pill"></span>
@@ -127,9 +126,9 @@ app.innerHTML = `
         <div class="panel-head">
           <div>
             <p class="panel-kicker">Kamera</p>
-            <h2>Jepret otomatis</h2>
+            <h2>Pengambilan otomatis</h2>
           </div>
-          <span id="status-pill" class="status-pill">Belum aktif</span>
+          <span id="status-pill" class="status-pill">Belum siap</span>
         </div>
 
         <div class="camera-frame">
@@ -139,8 +138,8 @@ app.innerHTML = `
 
         <div class="controls">
           <button id="camera-button" class="primary">Aktifkan kamera</button>
-          <button id="session-button" class="secondary">Mulai sesi foto</button>
-          <button id="reset-button" class="ghost">Ulangi</button>
+          <button id="session-button" class="secondary">Mulai sesi</button>
+          <button id="reset-button" class="ghost">Reset sesi</button>
         </div>
 
         <p id="helper-text" class="helper-text"></p>
@@ -155,7 +154,7 @@ app.innerHTML = `
       <div class="panel-head">
         <div>
           <p class="panel-kicker">Hasil foto</p>
-          <h2>Urutan jepretan</h2>
+          <h2>Urutan foto</h2>
         </div>
         <span id="countdown-pill" class="countdown-pill">Siap</span>
       </div>
@@ -441,14 +440,14 @@ async function ensureCamera() {
   video.srcObject = stream;
   state.isCameraReady = true;
   setStatus('Kamera aktif', 'success');
-  helperText.textContent = 'Arahkan wajah ke tengah frame lalu klik mulai sesi foto.';
+  helperText.textContent = 'Posisikan wajah di area tengah, lalu tekan Mulai sesi.';
 }
 
 function renderThemes() {
   const currentTemplate = getTemplate();
   templateName.textContent = currentTemplate.name;
   templateCount.textContent = formatCount(currentTemplate.shots);
-  shotLabel.textContent = `${currentTemplate.shots} shot`;
+  shotLabel.textContent = `${currentTemplate.shots} foto`;
   downloadButton.disabled = state.capturedShots.length !== currentTemplate.shots;
   sessionButton.disabled = state.isCapturing;
 
@@ -492,7 +491,8 @@ async function renderPreview() {
     `;
   }
 
-  captureStrip.style.gridTemplateColumns = `repeat(${template.shots}, minmax(0, 1fr))`;
+  captureStrip.style.gridTemplateColumns = `repeat(${template.shots}, minmax(112px, 156px))`;
+  captureStrip.style.justifyContent = 'center';
   captureStrip.innerHTML = template.slots
     .map((slot, index) => {
       const shot = state.capturedShots[index];
@@ -505,8 +505,8 @@ async function renderPreview() {
     .join('');
 
   helperText.textContent = state.capturedShots.length === template.shots
-    ? 'Semua foto sudah pas ke template. Tinggal download hasilnya.'
-    : 'Klik aktifkan kamera dulu, lalu mulai sesi untuk mengambil foto otomatis sesuai tema.';
+    ? 'Semua slot sudah terisi. Silakan unduh hasil akhir.'
+    : 'Aktifkan kamera, lalu tekan Mulai sesi.';
 
   renderThemes();
 }
@@ -516,7 +516,7 @@ function resetSession(keepCamera = true) {
   state.isCapturing = false;
   state.countdown = 0;
   setCountdown('Siap');
-  setStatus(state.isCameraReady ? 'Siap' : 'Belum aktif', state.isCameraReady ? 'neutral' : 'muted');
+  setStatus(state.isCameraReady ? 'Siap' : 'Belum siap', state.isCameraReady ? 'neutral' : 'muted');
   void renderPreview();
 
   if (!keepCamera && state.stream) {
@@ -633,13 +633,13 @@ themeGrid.addEventListener('click', (event) => {
   state.selectedTemplateId = templateId;
   state.capturedShots = [];
   setCountdown('Siap');
-  setStatus(state.isCameraReady ? 'Tema diganti' : 'Belum aktif', state.isCameraReady ? 'neutral' : 'muted');
+  setStatus(state.isCameraReady ? 'Template diperbarui' : 'Belum siap', state.isCameraReady ? 'neutral' : 'muted');
   void renderPreview();
 });
 
 cameraButton.addEventListener('click', async () => {
   cameraButton.disabled = true;
-  cameraButton.textContent = 'Menyalakan...';
+  cameraButton.textContent = 'Memuat...';
 
   try {
     await ensureCamera();
@@ -688,8 +688,8 @@ downloadButton.addEventListener('click', async () => {
 async function initApp() {
   await prepareTemplates();
   await renderPreview();
-  setStatus('Belum aktif', 'muted');
-  helperText.textContent = 'Aktifkan kamera untuk mulai sesi photobooth.';
+  setStatus('Belum siap', 'muted');
+  helperText.textContent = 'Aktifkan kamera untuk memulai sesi photo booth.';
 }
 
 void initApp();
