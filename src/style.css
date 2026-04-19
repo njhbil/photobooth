@@ -337,7 +337,7 @@ h1 {
 .camera-frame {
   position: relative;
   aspect-ratio: 3 / 4;
-  width: min(100%, 340px);
+  width: min(100%, 360px);
   margin: 0 auto;
   max-height: 42vh;
   border-radius: 18px;
@@ -452,7 +452,7 @@ h1 {
 
 .template-stage {
   position: relative;
-  width: min(100%, 320px);
+  width: min(100%, 340px);
   margin: 0 auto;
   aspect-ratio: 575 / 1365;
   max-height: 42vh;
@@ -537,12 +537,12 @@ h1 {
   }
 
   .camera-frame {
-    width: min(100%, 320px);
+    width: min(100%, 360px);
     max-height: 40vh;
   }
 
   .template-stage {
-    width: min(100%, 300px);
+    width: min(100%, 330px);
     max-height: 40vh;
   }
 }
@@ -595,13 +595,18 @@ h1 {
   }
 
   .theme-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 7px;
   }
 
+  .camera-frame {
+    width: min(100%, 420px);
+    max-height: none;
+  }
+
   .template-stage {
-    width: min(100%, 340px);
-    max-height: 48vh;
+    width: min(100%, 390px);
+    max-height: none;
   }
 
   .controls {
@@ -613,7 +618,7 @@ h1 {
   }
 
   .capture-strip {
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   }
 }
 
@@ -679,8 +684,8 @@ h1 {
 
   .theme-grid {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 6px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
   }
 
   .theme-card {
@@ -703,6 +708,8 @@ h1 {
   }
 
   .camera-frame {
+    width: min(100%, 92vw);
+    max-height: none;
     border-radius: 14px;
   }
 
@@ -712,7 +719,8 @@ h1 {
   }
 
   .template-stage {
-    width: min(100%, 84vw);
+    width: min(100%, 92vw);
+    max-height: none;
     border-radius: 14px;
   }
 
@@ -742,7 +750,7 @@ h1 {
   }
 
   .strip-item {
-    min-width: 38vw;
+    min-width: clamp(122px, 42vw, 176px);
     aspect-ratio: 3 / 4;
     min-height: 0;
     border-radius: 12px;

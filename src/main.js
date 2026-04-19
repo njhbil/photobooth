@@ -491,7 +491,7 @@ async function renderPreview() {
     `;
   }
 
-  captureStrip.style.gridTemplateColumns = `repeat(${template.shots}, minmax(112px, 156px))`;
+  captureStrip.style.gridTemplateColumns = `repeat(${template.shots}, minmax(clamp(126px, 22vw, 176px), 1fr))`;
   captureStrip.style.justifyContent = 'center';
   captureStrip.innerHTML = template.slots
     .map((slot, index) => {
